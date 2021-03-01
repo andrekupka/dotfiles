@@ -1,0 +1,171 @@
+# early exit if no running interactively
+[[ $- != *i* ]] && return
+
+if [[ -f "$HOME/.dir_colors" ]]; then
+	eval $(dircolors -b "$HOME/.dir_colors")
+fi
+
+alias ls='ls --color=auto'
+alias add-ssh-agent='eval $(ssh-agent) && ssh-add'
+
+# don't record git st to history
+alias git st=" git st"
+
+export EDITOR=vim
+export VISUAL=vim
+
+# key binding style: emacs
+bindkey -e
+
+# general shell options
+setopt extended_glob
+unsetopt autocd beep notify nomatch
+
+# history
+HISTFILE=~/.zsh_history
+HISTSIZE=100000
+SAVEHIST=1000000
+setopt hist_ignore_space hist_ignore_all_dups append_history share_history extended_history hist_verify
+
+# completions
+zstyle ":completion:*" auto-description "%d"
+zstyle ":completion:*" completer _expand _complete _ignored
+zstyle ":completion:*" completions 1
+zstyle ":completion:*" expand prefix suffix
+zstyle ":completion:*" file-sort modification
+zstyle ":completion:*" format '%{[1;31m%}%d%{[m%}'
+zstyle ":completion:*" glob 1
+zstyle ":completion:*" group-name ''
+zstyle ":completion:*" insert-unambiguous true
+zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
+zstyle ":completion:*" list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ":completion:*" list-suffixes true
+zstyle ":completion:*" matcher-list '' '' '' ''
+zstyle ":completion:*" menu select=1
+zstyle ":completion:*" original true
+zstyle ":completion:*" preserve-prefix '//[^/]# #/'
+zstyle ":completion:*" select-prompt %SScrolling active: current selection at %p%s
+zstyle ":completion:*" squeeze-slashes true
+zstyle ":completion:*" substitute 1
+zstyle ":completion:*" verbose true
+zstyle ":compinstall" filename ~/.zshrc
+
+autoload -Uz compinit
+compinit
+
+# manpage
+zstyle ":completion:*:manuals" separate-sections true
+
+# key bindings
+typeset -A keys
+keys[Home]=${terminfo[khome]}
+keys[End]=${terminfo[kend]}
+keys[Insert]=${terminfo[kich1]}
+keys[Delete]=${terminfo[kdch1]}
+keys[Backspace]=${terminfo[kbs]}
+keys[CtrlDelete]="^[[3;5~" #${terminfo[kDC5]}
+keys[CtrlBackspace]='^H'
+keys[Up]=${terminfo[kcuu1]}
+keys[Down]=${terminfo[kcud1]}
+keys[Left]=${terminfo[kcub1]}
+keys[Right]=${terminfo[kcuf1]}
+keys[ShiftLeft]="^[[1;2D" #${terminfo[kLFT]}
+keys[ShiftRight]="^[[1;2C" #${terminfo[kRIT]}
+keys[CtrlLeft]="^[[1;5D" #${terminfo[kLFT5]}
+keys[CtrlRight]="^[[1;5C" #${terminfo[kRIT5]}
+keys[PageUp]=${terminfo[knp]}
+keys[PageDown]=${terminfo[kpp]}
+keys[ShiftTab]=${terminfo[kcbt]}
+
+function trybindkey() {
+	key="$1"
+	binding="$2"
+
+	key_value="${keys[$key]}"
+	if [ -n "${key_value}" ]; then
+		bindkey "${key_value}" "${binding}"
+	else
+		echo -e "\e[31;1mFailed to bind $binding, key $key not found\e[m"
+	fi
+}
+
+# modifying text
+trybindkey Delete delete-char
+trybindkey Backspace backward-delete-char
+trybindkey CtrlDelete kill-word
+trybindkey CtrlBackspace backward-kill-word
+
+bindkey "^K" kill-whole-line
+bindkey "^Q" backward-kill-line
+bindkey "^Q" forward-kill-line
+
+# history
+trybindkey Up history-beginning-search-backward
+trybindkey Down history-beginning-search-forward
+
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey "^S" history-incremental-pattern-search-forward
+
+# navigation
+trybindkey Home beginning-of-line
+trybindkey End end-of-line
+trybindkey Left backward-char
+trybindkey Right forward-char
+trybindkey CtrlLeft backward-word
+trybindkey CtrlRight forward-word
+trybindkey ShiftLeft beginning-of-line
+trybindkey ShiftRight end-of-line
+trybindkey ShiftTab reverse-menu-complete
+
+# configure prompt
+
+setopt prompt_subst
+
+state_color() {
+	if [[ $1 -ne 0 || $2 -ne 0 ]]; then
+		echo "red"
+	elif [[ $3 -ne 0 ]]; then
+		echo "green"
+	fi
+}
+
+state_info() {
+	git ls-files --other --directory --exclude-standard | sed q1 2>/dev/null >/dev/null
+	untracked=$?
+
+	git diff --no-ext-diff --quiet --exit-code
+	dirty=$?
+
+	git diff-index --quiet HEAD
+	staged=$?
+
+	state_color=$(state_color $untracked $dirty $staged)
+
+	git rev-list -1 MERGE_HEAD 2>/dev/null >/dev/null
+	if [[ $? -eq 0 ]]; then
+		echo " %F{$state_color}merging%f"
+		exit 0
+	fi
+	if [[ $untracked -ne 0 ]]; then
+		echo " %F{$state_color}untracked%f"
+	elif [[ $dirty -ne 0 ]]; then
+		echo " %F{$state_color}dirty%f"
+	elif [[ $staged -ne 0 ]]; then
+		echo " %F{$state_color}staged%f"
+	fi
+}
+
+branch_info() {
+	local branch=$(git branch 2>/dev/null | grep '^*' | colrm 1 2)
+	if [[ -n $branch ]]; then
+		echo "%F{yellow}($branch$(state_info)%F{yellow})%f "
+
+	fi
+}
+
+exit_code_info='%(0?..%F{red}fail: %?%f'$'\n'')'
+
+PROMPT='${exit_code_info}%F{green}%n@%m%f %F{cyan}%~%f %F{yellow}$%f '
+RPROMPT='$(branch_info)'
+
+# vim ft=zsh
