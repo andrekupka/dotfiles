@@ -65,17 +65,17 @@ link_file() {
 }
 
 link_files() {
-    echo -e "$BLUE_COLONS ${BOLD}Linking dotfiles from $DOTFILES_PATH to $HOME$END"
-    for i in $(ls -d $DOTFILES_PATH/dotfiles/*); do
+    local directory=$DOTFILES_PATH/$1
+    echo -e "$BLUE_COLONS ${BOLD}Linking dotfiles from $directory to $HOME$END"
+    for i in $(ls -d $directory/*); do
         link_file "$i"
     done
 }
 
-
 install() {
     prepare_dot_files
 
-    link_files
+    link_files "base" 
 
     echo -e "$GREEN_ARROW ${BOLD}Installation finished.$END"
 }

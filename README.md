@@ -2,7 +2,7 @@
 
 ## Installation
 
-Clones this repository to `$HOME/.dotfiles` and creates symlinks for all files under `dotfiles` in `$HOME`.
+Clones this repository to `$HOME/.dotfiles` and creates symlinks for all files under `base` in `$HOME`.
 
 ```bash
 wget https://raw.githubusercontent.com/andrekupka/dotfiles/master/install.sh \
