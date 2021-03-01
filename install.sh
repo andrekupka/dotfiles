@@ -77,7 +77,7 @@ install() {
 
     link_files
 
-    echo -e "$GREEN_ARROW ${BOLD}Installation finished.${END}"
+    echo -e "$GREEN_ARROW ${BOLD}Installation finished.$END"
 }
 
 install
