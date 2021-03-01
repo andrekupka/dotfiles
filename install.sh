@@ -7,7 +7,7 @@ BOLD="\e[1m"
 END="\e[m"
 
 clone_dot_files() {
-    git clone git@github.com:andrekupka/dotfiles $DOTFILES_PATH
+    git clone https://github.com/andrekupka/dotfiles.git $DOTFILES_PATH
     echo -e "$GREEN_ARROW ${BOLD}Cloned dotfiles to $DOTFILES_PATH.$END"
 }
 
