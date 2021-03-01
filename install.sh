@@ -47,7 +47,7 @@ ask_link() {
         link $1 $2
         ;;
     *)
-        echo "Skipping $2"
+        echo "$GREEN_ARROW ${BOLD}Skipping $2$END"
         ;;
     esac
 }
@@ -77,7 +77,7 @@ install() {
 
     link_files
 
-    echo "$GREEN_ARROW ${BOLD}Installation finished.${END}"
+    echo -e "$GREEN_ARROW ${BOLD}Installation finished.${END}"
 }
 
 install
