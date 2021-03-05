@@ -7,6 +7,16 @@ fi
 
 alias ls='ls --color=auto'
 alias add-ssh-agent='eval $(ssh-agent) && ssh-add'
+#
+# export password alias
+export_secret() {
+	if [[ -z "$1" ]]; then
+		echo -e "\e[31;1mNeed to specify an environment variable\e[m"
+	else
+		read -s secret
+		export $1="$secret"
+	fi
+}
 
 # don't record git st to history
 alias git st=" git st"
