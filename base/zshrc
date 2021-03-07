@@ -5,6 +5,10 @@ if [[ -f "$HOME/.dir_colors" ]]; then
 	eval $(dircolors -b "$HOME/.dir_colors")
 fi
 
+if [[ -f "$HOME/.profile" ]]; then
+	source "$HOME/.profile"
+fi
+
 alias ls='ls --color=auto'
 alias add-ssh-agent='eval $(ssh-agent) && ssh-add'
 #
