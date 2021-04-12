@@ -72,8 +72,8 @@ zstyle ":completion:*:manuals" separate-sections true
 
 # key bindings
 typeset -A keys
-keys[Home]=${terminfo[khome]}
-keys[End]=${terminfo[kend]}
+keys[Home]="^[[H" #${terminfo[khome]}
+keys[End]="^[[F" #${terminfo[kend]}
 keys[Insert]=${terminfo[kich1]}
 keys[Delete]=${terminfo[kdch1]}
 keys[Backspace]=${terminfo[kbs]}
