@@ -16,5 +16,5 @@ wget https://raw.githubusercontent.com/andrekupka/dotfiles/master/install.sh \
 If you want to overwrite all files for sure, just use the following command.
 
 ```bash
-curl https://raw.githubusercontent.com/andrekupka/dotfiles/master/install.sh | base -s -- -y
+curl https://raw.githubusercontent.com/andrekupka/dotfiles/master/install.sh | bash -s -- -y
 ```
