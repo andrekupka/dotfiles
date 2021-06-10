@@ -144,13 +144,13 @@ state_color() {
 }
 
 state_info() {
-	git ls-files --other --directory --exclude-standard | sed q1 2>/dev/null >/dev/null
+	git ls-files --other --directory --exclude-standard 2>/dev/null | sed q1 2>/dev/null >/dev/null
 	untracked=$?
 
-	git diff --no-ext-diff --quiet --exit-code
+	git diff --no-ext-diff --quiet --exit-code 2>/dev/null >/dev/null
 	dirty=$?
 
-	git diff-index --quiet HEAD
+	git diff-index --quiet HEAD 2>/dev/null >/dev/null
 	staged=$?
 
 	state_color=$(state_color $untracked $dirty $staged)
