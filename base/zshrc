@@ -9,6 +9,12 @@ if [[ -f "$HOME/.profile" ]]; then
 	source "$HOME/.profile"
 fi
 
+ASDF_DIR="$HOME/.asdf"
+if [[ -f "$ASDF_DIR/asdf.sh" ]]; then
+	. "$ASDF_DIR/asdf.sh"
+	fpath=($ASDF_DIR/asdf.sh $fpath)
+fi
+
 alias ls='ls --color=auto'
 alias add-ssh-agent='eval $(ssh-agent) && ssh-add'
 #
