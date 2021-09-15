@@ -1,6 +1,10 @@
 # early exit if no running interactively
 [[ $- != *i* ]] && return
 
+if [[ -f "$HOME/.zsh_before" ]]; then
+	source "$HOME/.zsh_before"
+fi
+
 if [[ -f "$HOME/.dir_colors" ]]; then
 	eval $(dircolors -b "$HOME/.dir_colors")
 fi
@@ -187,5 +191,9 @@ exit_code_info='%(0?..%F{red}fail: %?%f'$'\n'')'
 
 PROMPT='${exit_code_info}%F{green}%n@%m%f %F{cyan}%~%f %F{yellow}$%f '
 RPROMPT='$(branch_info)'
+
+if [[ -f "$HOME/.zsh_after" ]]; then
+	source "$HOME/.zsh_after"
+fi
 
 # vim ft=zsh
