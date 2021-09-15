@@ -21,3 +21,5 @@ set nowrap
 " h,l: h and l keys
 " [,]: arrow keys in insert mode
 set whichwrap+=<,>,h,l,[,]
+
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
