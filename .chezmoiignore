@@ -1,6 +1,12 @@
 README.md
 .gitignore
 
+{{ if eq .deviceType "server" }}
+{{ if not (lookPath "i3") }}
+.config/i3/config
+.config/i3status/config
+{{ end }}
 {{ if not (lookPath "alacritty") }}
 .alacritty.yml
+{{ end }}
 {{ end }}
