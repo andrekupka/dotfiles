@@ -1,4 +1,5 @@
 README.md
+.gitignore
 
 {{ if not (lookPath "alacritty") }}
 .alacritty.yml

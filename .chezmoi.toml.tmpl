@@ -1,5 +1,5 @@
-{{- $terminalChoices := list "alacritty" "other" -}}
-{{- $terminal := promptChoiceOnce . "terminal" "What terminal are you using" $terminalChoices "alacritty" -}}
-
-[data]
-  terminal = {{ $terminal | quote }}
+{{ if lookPath "alacritty" -}}
+{{- $alacrittyFontSize := promptIntOnce . "alacritty.fontSize" "What font size do you want to use in alacritty" 7 -}}
+[data.alacritty]
+    fontSize = {{ $alacrittyFontSize }}
+{{- end }}
