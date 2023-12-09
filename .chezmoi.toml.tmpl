@@ -1,0 +1,5 @@
+{{- $terminalChoices := list "alacritty" "other" -}}
+{{- $terminal := promptChoiceOnce . "terminal" "What terminal are you using" $terminalChoices "alacritty" -}}
+
+[data]
+  terminal = {{ $terminal | quote }}
