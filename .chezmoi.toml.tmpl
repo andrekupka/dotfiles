@@ -1,8 +1,15 @@
 [data]
 {{- $deviceTypeChoices := list "workstation" "laptop" "server" -}}
 {{- $deviceType := promptChoiceOnce . "deviceType" "What type of device are you configuring" $deviceTypeChoices "laptop" }}
-    deviceType = {{ $deviceType | quote}}
-{{ if lookPath "alacritty" -}}
+    deviceType = {{ $deviceType | quote }}
+{{- if lookPath "eza" }}
+    lsCommand = "eza"
+{{- else if lookPath "exa" }}
+    lsCommand = "exa"
+{{- else }}
+{{- exit 1 }}
+{{- end -}}
+{{- if lookPath "alacritty" }}
 [data.alacritty]
 {{- $alacrittyFontSize := promptIntOnce . "alacritty.fontSize" "What font size do you want to use in alacritty" 7 }}
     fontSize = {{ $alacrittyFontSize }}

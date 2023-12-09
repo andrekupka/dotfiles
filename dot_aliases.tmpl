@@ -1,0 +1,18 @@
+# see https://unix.stackexchange.com/a/25329
+alias watch='watch '
+
+alias add-ssh-agent='eval $(ssh-agent) && ssh-add'
+
+alias ls='{{ .lsCommand }}'
+alias lsa='{{ .lsCommand }}'
+alias ll='{{ .lsCommand }} -l --icons --git --group-directories-first'
+alias lla='{{ .lsCommand }} -l --icons --git --group-directories-first -a'
+alias lt='{{ .lsCommand }} -l --icons --git --group-directories-first --tree --level 2'
+alias lta='{{ .lsCommand }} -l --icons --git --group-directories-first --tree --level 2 -a'
+
+alias tf='terraform'
+alias tfi='terraform init'
+alias tfp='terraform plan'
+alias tfa='terraform apply'
+
+# vim: set filetype=zsh
