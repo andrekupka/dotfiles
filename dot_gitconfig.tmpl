@@ -1,0 +1,59 @@
+[user]
+	email = me-github@andrekupka.de
+	name = Andre Kupka
+{{- if .git.commitSigningEnabled }}
+	signingkey = {{ .git.commitSigningKey }}
+[commit]
+	gpgsign = true
+{{- end }}
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[merge]
+	tool = meld
+[core]
+	editor = vim
+	autocrlf = input
+[alias]
+	cfg = config --global --edit
+	ap = add -p
+	bd = branch -d
+	br = branch
+	ca = commit --amend
+	cas = commit --signoff --amend
+	ci = commit
+	cis = commit --signoff
+	cm = commit --message
+	cms = commit --signoff --message
+	co = checkout
+	cb = checkout -b
+	cl = clone
+	cv = commit --dry-run --verbose
+	di = diff
+	ds = diff --staged
+	ft = fetch
+	fp = fetch -p
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	mg = merge --no-ff
+	pl = pull --ff-only
+	ps = push --follow-tags
+	sl = stash list
+	sp = stash pop
+	ss = stash
+	st = status
+	ri = rebase --interactive
+	rc = rebase --continue
+	mrp = clean -df
+	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+	unwip = !git log -n 1 | grep -q -c wip && git reset HEAD~1
+	wip = "!git add -A; git ls-files --deleted -z | xargs -0 --no-run-if-empty git rm; git commit -m \"wip\""
+	bm = branch --merged
+	bmr = branch --remote --merged
+	cleanup-local = !git branch --merged | grep -v \"\\*\" | grep -v master | grep -v develop | xargs -n 1 git branch -d
+	cleanup-remote = !git branch --remote --merged | grep -v master | grep -v develop | sed 's/origin\\///' | xargs -n 1 git push --delete origin
+	release = "!git commit -m \"Release ${1}\"; git tag -a -m \"Release ${1}\""
+[push]
+	default = current
+	followTags = true

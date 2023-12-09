@@ -1,5 +1,12 @@
 {{ if lookPath "alacritty" -}}
-{{- $alacrittyFontSize := promptIntOnce . "alacritty.fontSize" "What font size do you want to use in alacritty" 7 -}}
 [data.alacritty]
+{{- $alacrittyFontSize := promptIntOnce . "alacritty.fontSize" "What font size do you want to use in alacritty" 7 }}
     fontSize = {{ $alacrittyFontSize }}
+{{- end }}
+[data.git]
+{{- $gitCommitSigningEnabled := promptBoolOnce . "git.commitSigningEnabled" "Do you want to enabled git commit signing " true }}
+    commitSigningEnabled = {{ $gitCommitSigningEnabled }}
+{{- if $gitCommitSigningEnabled }}
+{{- $gitCommitSigningKey := promptStringOnce . "git.commitSigningKey" "What key id do you want to use for git commit signing" "CF26D79C" }}
+    commitSigningKey = {{ $gitCommitSigningKey | quote }}
 {{- end }}
