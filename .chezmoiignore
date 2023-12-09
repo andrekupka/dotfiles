@@ -3,17 +3,15 @@ README.md
 
 {{ $isServer := eq .deviceType "server" }}
 
-{{ if or $isServer not (lookPath "i3") }}
+{{ if or $isServer (not (lookPath "i3")) }}
 .config/i3/config
 .config/i3status/config
 {{ end }}
 
-{{ if or $isServer not (lookPath "rofi") }}
+{{ if or $isServer (not (lookPath "rofi")) }}
 .config/rofi/config
 {{ end }}
 
-{{ if or $isServer not (lookPath "alacritty") }}
+{{ if or $isServer (not (lookPath "alacritty")) }}
 .alacritty.yml
-{{ end }}
-
 {{ end }}
