@@ -6,9 +6,9 @@
     lsCommand = "eza"
 {{- else if lookPath "exa" }}
     lsCommand = "exa"
-{{- else }}
-{{- exit 1 }}
-{{- end -}}
+{{- else -}}
+{{- exit 1 -}}
+{{- end }}
 {{- if lookPath "alacritty" }}
 [data.alacritty]
 {{- $alacrittyFontSize := promptIntOnce . "alacritty.fontSize" "What font size do you want to use in alacritty" 7 }}
