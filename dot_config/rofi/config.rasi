@@ -1,0 +1,5 @@
+configuration {
+  font: "Fira Mono 12";
+  terminal: "alacritty";
+}
+@theme "sidebar"
