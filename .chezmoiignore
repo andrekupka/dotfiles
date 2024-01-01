@@ -13,5 +13,5 @@ README.md
 {{ end }}
 
 {{ if or $isServer (not (lookPath "alacritty")) }}
-.config/alacritty/alacritty.yml
+.config/alacritty/alacritty.toml
 {{ end }}
